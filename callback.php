@@ -1,8 +1,8 @@
 <?php
     session_start();
     
-    $app_id = "";
-    $app_secret = "";
+    $app_id = "509011619175617";
+    $app_secret = "226491c9633bf31817077cfde437fe0d";
     $redirect_uri = urlencode("http://localhost/fblogin/callback.php");    
     
     // Get code value
@@ -20,7 +20,9 @@
     curl_close($ch);
     
     // Get access token
-    $access_token = str_replace('access_token=', '', explode("&", $response)[0]);
+    $aResponse = explode("&", $response);
+
+    $access_token = str_replace('access_token=', '', $aResponse[0]);
     
     // Get user infomation
     $ch = curl_init(); 
@@ -31,11 +33,13 @@
     $response = curl_exec($ch); 
     curl_close($ch);
     
-    $user = json_decode($response);   
-    
+    $user = json_decode($response);
+
+    //print_r($user);
     // Log user in
     $_SESSION['user_login'] = true;
     $_SESSION['user_name'] = $user->username;
     
     echo "Wellcome ". $user->username ."!";    
+
 ?>
