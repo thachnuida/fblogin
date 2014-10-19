@@ -39,7 +39,9 @@
     // Log user in
     $_SESSION['user_login'] = true;
     $_SESSION['user_name'] = $user->username;
+    $_SESSION['access_token'] = $access_token;
     
     echo "Wellcome ". $user->username ."!";    
+     echo "Wellcome ". $access_token ."!";  
 
 ?>
