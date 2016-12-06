@@ -9,7 +9,7 @@
     $code = $_GET['code'];
     
     // Get access token info
-    $facebook_access_token_uri = "https://graph.facebook.com/oauth/access_token?client_id=$app_id&redirect_uri=$redirect_uri&client_secret=$app_secret&code=$code";    
+    $facebook_access_token_uri = "https://graph.facebook.com/v2.8/oauth/access_token?client_id=$app_id&redirect_uri=$redirect_uri&client_secret=$app_secret&code=$code";    
     
     $ch = curl_init(); 
     curl_setopt($ch, CURLOPT_URL, $facebook_access_token_uri);
@@ -18,11 +18,10 @@
         
     $response = curl_exec($ch); 
     curl_close($ch);
-    
-    // Get access token
-    $aResponse = explode("&", $response);
 
-    $access_token = str_replace('access_token=', '', $aResponse[0]);
+    // Get access token
+    $aResponse = json_decode($response);
+    $access_token = $aResponse->access_token;
     
     // Get user infomation
     $ch = curl_init(); 
@@ -38,10 +37,8 @@
     //print_r($user);
     // Log user in
     $_SESSION['user_login'] = true;
-    $_SESSION['user_name'] = $user->username;
-    $_SESSION['access_token'] = $access_token;
+    $_SESSION['user_name'] = $user->name;
     
-    echo "Wellcome ". $user->username ."!";    
-     echo "Wellcome ". $access_token ."!";  
+    echo "Wellcome ". $user->name ."!";    
 
 ?>
